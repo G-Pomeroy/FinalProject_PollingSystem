@@ -121,17 +121,16 @@ void exitProgram(){
 
     char input;
 
-    printf("Would you like to exit the Polling Program?");
-    printf("Y / N?");
-
-    scanf("%c", &input);
+    printf("Would you like to exit the Polling Program?\n");
+    printf("Y / N?\n");
+    scanf(" %c", &input);
 
     if(input == 'y' || input == 'Y'){
+        printf("Exiting program...");
         exit(0);
     } else if (input == 'n' || input == 'N') {
-        printf("Returning to main menu...");
+        printf("Returning to main menu...\n\n");
     }
-
 
 }
 
@@ -274,6 +273,7 @@ int main() {
             case 3: exitProgram();
             break;
 
+            //default output
             default:
             printf("Invalid Input, please try again.\n");
             break;
