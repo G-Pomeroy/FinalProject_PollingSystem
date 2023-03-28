@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <stdio.h>
-#include "Func.h"
+
 
 //Defining candidates to vote for
 #define candidate1 "Jim Briar"
