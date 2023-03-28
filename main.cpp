@@ -3,21 +3,23 @@
 #include <stdio.h>
 #include "Func.h"
 
-
+//Defining candidates to vote for
 #define candidate1 "Jim Briar"
 #define candidate2 "Poppy Brande"
 #define candidate3 "Mike Brown"
 
-//USer and Admin accounts both added and accessed as a struct
+//User and Admin accounts both added and accessed as a struct
 struct account {
     char name[20];
     char pass[20];
 };
 
+//Declare variables
 int flag, vote1, vote2, vote3;
 bool voteFlag = false;
 char username[20], password[20],passwordCheck[20], usernameCheck[20];
 
+//Func to log in Admin
 void adminLogIn() {
 
     bool admin = false;
@@ -71,6 +73,7 @@ while(1){
         fclose(fp);
 }
 
+//Func to Log in a registered user
 void userLogIn(){
 
     bool admin = false;
@@ -124,6 +127,7 @@ void userLogIn(){
     fclose(fp);
 }
 
+//Func for Admins to tally votes and declare winner
 void voteCount(){
 
     printf("---Total Vote Count Per Candidate---\n\n");
@@ -143,6 +147,7 @@ void voteCount(){
 
 }
 
+//Func to allow Users to vote
 void candidateVote(){
 
     if(voteFlag = true){
@@ -175,6 +180,7 @@ void candidateVote(){
 
 }
 
+//Func to Exit program completely
 void exitProgram(){
 
     char input;
@@ -191,6 +197,7 @@ void exitProgram(){
     }
 }
 
+//Func for Admin to create a new user
 void newUser(){
 
     FILE *fpWrite;
@@ -220,6 +227,8 @@ void newUser(){
     printf("\n\nNew User account entered successfully\n\n");
 }
 
+
+//Func to allow Admin to create a nee Admin
 void newAdmin(){
 
     FILE *fpWrite;
@@ -249,6 +258,8 @@ void newAdmin(){
     printf("\n\nNew Admin account entered successfully\n\n");
 }
 
+
+//User menu to select functions
 void userFunc(){
 
     int input;
@@ -275,6 +286,8 @@ void userFunc(){
     }
 }
 
+
+//Admin menu to select functions
 void adminFunc(){
 
     int input;
