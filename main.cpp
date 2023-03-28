@@ -1,100 +1,127 @@
 #include <iostream>
 #include <cstring>
+#include <stdio.h>
+#include "Func.h"
 
 
 #define candidate1 "Jim Briar"
 #define candidate2 "Poppy Brande"
 #define candidate3 "Mike Brown"
 
+//USer and Admin accounts both added and accessed as a struct
 struct account {
     char name[20];
     char pass[20];
 };
 
-int flag, usernameCheck, passwordCheck, vote1, vote2, vote3;
+int flag, vote1, vote2, vote3;
 bool voteFlag = false;
-char usernameAdmin[]="admin", pswrdAdmin[]="1234", nameUser[]="user", pswrdUser[]="1234";
-char username[20], password[20];
+char username[20], password[20],passwordCheck[20], usernameCheck[20];
 
-void adminLogIn(){
+void adminLogIn() {
 
-    int fileExists;
+    bool admin = false;
+    int tries = 0;
 
     printf("\n\n---Admin Selected---\n\n");
 
-    while(true) {
 
-        //Working on comparing user input and text file for password and username input
-        FILE *fp;
-        fp = fopen("admin_list.txt", "r");
-        if(!fp) {
-            perror("admin_list.txt");
-            printf("File not found. Creating file...\n\n");
-        } else {
-            fileExists = 1;
-        }
+    FILE *fp;
+    fp = fopen("admin_list.txt", "rb");
+    if (!fp) {
+        printf("File not found. Creating file...\n\n");
+    }
 
-        printf("Please enter username and password: \n");
+    rewind(fp);
+    printf("Please enter username and password: \n");
 
-        printf("Username:");
-        scanf(" %s", username);
-        fflush(stdout);
+    printf("Username: ");
+    scanf("%s", username);
 
-        printf("Password:");
-        scanf(" %s", password);
-        fflush(stdout);
+    printf("Password: ");
+    scanf("%s", password);
 
-//        if(fileExists) {
-//            while (fread(fp, " %s") != EOF) {
-//                if(!strcmp(, artist)) {
-//                    found = 1;
-//                    break;
-//                }
-//
-//            }
-//        }
-
-
-
-        usernameCheck = strcmp(username, usernameAdmin);
-        passwordCheck = strcmp(password, pswrdAdmin);
-
-        if (usernameCheck != 0 || passwordCheck != 0) {
-            printf("Incorrect username or password. Please try again.\n\n");
-        } else {
-            printf("Welcome Polling Officer\n\n");
+while(1){
+    while (fscanf(fp, "%s %s", usernameCheck, passwordCheck) == 2) {
+        if (strcmp(username, usernameCheck) == 0 && strcmp(password, passwordCheck) == 0) {
+            printf("Login successful!\n\n");
+            admin = true;
             break;
         }
     }
 
+    if (admin) {
+        break;
+    } else {
+        printf("Incorrect values. Please try again.\n\n");
+        tries++;
+
+        if (tries > 2) {
+            printf("Login unsuccessful!\n");
+            break;
+        }
+
+        rewind(fp);                         /* Reset the file and try again */
+        printf("Username: ");
+        scanf("%s", username);
+        printf("Password: ");
+        scanf("%s", password);
+        }
+    }
+        fclose(fp);
 }
 
 void userLogIn(){
 
-    printf("\n--User Selected--\n");
+    bool admin = false;
+    int tries = 0;
 
-    while(true) {
-        printf("Please enter username and password: \n");
+    printf("\n\n---User Selected---\n\n");
 
-        printf("Username:");
-        scanf(" %s", username);
-        fflush(stdout);
 
-        printf("Password:");
-        scanf(" %s", password);
-        fflush(stdout);
+    FILE *fp;
+    fp = fopen("user_list.txt", "rb");
+    if (!fp) {
+        printf("File not found. Creating file...\n\n");
+    }
 
-        usernameCheck = strcmp(username, nameUser);
-        passwordCheck = strcmp(password, pswrdUser);
+    rewind(fp);
+    printf("Please enter username and password: \n");
 
-        if (usernameCheck != 0 || passwordCheck != 0) {
-            printf("Incorrect username or password. Please try again.\n");
-        } else {
-            printf("Welcome User\n");
-            voteFlag = true;
+    printf("Username: ");
+    scanf("%s", username);
+
+    printf("Password: ");
+    scanf("%s", password);
+
+    while(1){
+        while (fscanf(fp, "%s %s", usernameCheck, passwordCheck) == 2) {
+            if (strcmp(username, usernameCheck) == 0 && strcmp(password, passwordCheck) == 0) {
+                printf("Login successful!\n\n");
+                admin = true;
+                break;
+            }
+        }
+
+        if (admin) {
             break;
+        } else {
+            printf("Incorrect values. Please try again.\n\n");
+            tries++;
+
+            if (tries > 2) {
+                printf("Login unsuccessful!\n");
+                break;
+            }
+
+            rewind(fp);                         /* Reset the file and try again */
+            printf("Username: ");
+            scanf("%s", username);
+            printf("Password: ");
+            scanf("%s", password);
         }
     }
+    fclose(fp);
 }
 
 void voteCount(){
@@ -180,14 +207,14 @@ void newUser(){
 
     printf("Please enter a new username (Max. 20 Characters): \n");
     scanf(" %s", newInput.name);
-    fgets(newInput.name, 20, stdin);
-    fputs("\n",fpWrite);
+    fprintf(fpWrite,newInput.name);
+    fprintf(fpWrite,"\n");
+
 
     printf("Please enter a new password (Max. 20 Characters): \n");
     scanf(" %s", newInput.pass);
-    fgets(newInput.pass, 20, stdin);
-    fputs("\n",fpWrite);
-
+    fprintf(fpWrite,newInput.pass);
+    fprintf(fpWrite,"\n");
 
     fclose(fpWrite);
     printf("\n\nNew User account entered successfully\n\n");
@@ -197,7 +224,7 @@ void newAdmin(){
 
     FILE *fpWrite;
 
-    printf("---Add a new User Account---\n\n");
+    printf("---Add a new Admin Account---\n\n");
 
     //Add new user without overwriting any existing information
     fpWrite = fopen("admin_list.txt", "a");
@@ -209,17 +236,17 @@ void newAdmin(){
 
     printf("Please enter a new username (Max. 20 Characters): \n");
     scanf(" %s", newInput.name);
-    fgets(newInput.name, 20, stdin);
-    fputs("\n",fpWrite);
+    fprintf(fpWrite,newInput.name);
+    fprintf(fpWrite,"\n");
+
 
     printf("Please enter a new password (Max. 20 Characters): \n");
     scanf(" %s", newInput.pass);
-    fgets(newInput.pass, 20, stdin);
-    fputs("\n",fpWrite);
-
+    fprintf(fpWrite,newInput.pass);
+    fprintf(fpWrite,"\n");
 
     fclose(fpWrite);
-    printf("\n\nNew User account entered successfully\n\n");
+    printf("\n\nNew Admin account entered successfully\n\n");
 }
 
 void userFunc(){
@@ -227,7 +254,7 @@ void userFunc(){
     int input;
 
     while(true) {
-        printf("Please select a function (1-4):\n");
+        printf("Please select a function:\n");
         printf("1. Vote for a candidate\n");
         printf("2. Return to Main Menu\n");
 
