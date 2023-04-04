@@ -37,16 +37,17 @@ void adminLogIn() {
     rewind(fp);
     printf("Please enter username and password: \n");
 
-    printf("Username: ");
+    printf("Username:");
     scanf("%s", username);
 
-    printf("Password: ");
+    printf("Password:");
     scanf("%s", password);
+
 
 while(1){
     while (fscanf(fp, "%s %s", usernameCheck, passwordCheck) == 2) {
         if (strcmp(username, usernameCheck) == 0 && strcmp(password, passwordCheck) == 0) {
-            printf("Login successful!\n\n");
+            printf("\nLogin successful!\n\n");
             admin = true;
             break;
         }
@@ -91,16 +92,16 @@ void userLogIn(){
     rewind(fp);
     printf("Please enter username and password: \n");
 
-    printf("Username: ");
+    printf("Username:");
     scanf("%s", username);
 
-    printf("Password: ");
+    printf("Password:");
     scanf("%s", password);
 
     while(1){
         while (fscanf(fp, "%s %s", usernameCheck, passwordCheck) == 2) {
             if (strcmp(username, usernameCheck) == 0 && strcmp(password, passwordCheck) == 0) {
-                printf("Login successful!\n\n");
+                printf("\nLogin successful!\n\n");
                 admin = true;
                 break;
             }
@@ -227,7 +228,6 @@ void newUser(){
     printf("\n\nNew User account entered successfully\n\n");
 }
 
-
 //Func to allow Admin to create a nee Admin
 void newAdmin(){
 
@@ -258,7 +258,6 @@ void newAdmin(){
     printf("\n\nNew Admin account entered successfully\n\n");
 }
 
-
 //User menu to select functions
 void userFunc(){
 
@@ -285,7 +284,6 @@ void userFunc(){
         break;
     }
 }
-
 
 //Admin menu to select functions
 void adminFunc(){
